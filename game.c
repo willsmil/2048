@@ -8,16 +8,16 @@
 /* 全局变量声明 */
 int a[4][4] = {0};          //用二维数组表示16宫格
 int empty;                  //16宫格中空格的数量
-int old_y, old_x;
+int old_y, old_x;           //临时变量
 
 /* 函数声明 */
 void draw();                //绘制游戏界面
-void play();
-void init();
-void draw_one(int x, int y);
-void cnt_value(int *new_y, int * new_x);
-void game_over();
-int cnt_one(int y, int x);
+void play();                //游戏过程
+void init();                //创建游戏
+void draw_one(int x, int y);//
+void cnt_value(int *new_y, int * new_x);//值的个数
+void game_over();           //游戏结束
+int cnt_one(int y, int x);  //
 
 /* 主函数 */
 int main()
@@ -29,7 +29,7 @@ int main()
         return 0;
 }
 
-
+/* 创建游戏 */
 void init()
 {
         int x, y;
@@ -52,7 +52,7 @@ void init()
         draw();
 }
 
-
+/* 绘制游戏界面 */
 void draw()
 {
         int m, n, x, y;
@@ -78,6 +78,7 @@ void draw()
                 }
 } 
 
+/* */
 void draw_one(int y, int x)
 {
         int i, m, k, j;
@@ -98,7 +99,7 @@ void draw_one(int y, int x)
         }
 }
 
-
+/* 进行游戏 */
 void play()
 {
         int x, y, i, new_x, new_y, temp;
@@ -112,7 +113,7 @@ void play()
                 switch(ch) {
                 case 'a':
                 case '4':
-                case 37:
+                case 68:        //左方向键
                         for(y = 0; y < 4; y++)
                                 for(x = 0; x < 4;) {
                                         if(a[y][x] == 0) {
@@ -122,18 +123,16 @@ void play()
                                                 for(i = x+1; i < 4; i++) {
                                                         if(a[y][i] == 0) 
                                                                 continue;
-                                                        else {
-                                                                if(a[y][x] == a[y][i]) {
+                                                        else if(a[y][x] == a[y][i]) {
                                                                         a[y][x] += a[y][i];
                                                                         a[y][i] = 0;
                                                                         empty++;
                                                                         break;
-                                                                } else {
+                                                        } else {
                                                                         break;
-                                                                }
                                                         }
                                                 }
-                                                i++;
+                                                x = i;
                                         }
                                 }
                         for(y = 0; y < 4; y++) 
@@ -225,7 +224,7 @@ void play()
                         break;
                 case 's':
                 case '2':
-                case 80:
+                case 66:
                         for(x = 0; x < 4; x++)
                                 for(y = 3; y >= 0;) {
                                         if(a[y][x] == 0) {
@@ -286,7 +285,7 @@ void play()
         }
 }
 
-
+/* */
 int cnt_one(int y, int x)
 {
         int value = 0;
@@ -311,7 +310,7 @@ int cnt_one(int y, int x)
         return value;
 }
 
-
+/* */
 void cnt_value(int *new_y, int *new_x)
 {
         int max_x, max_y, x, y, value;
@@ -334,7 +333,7 @@ void cnt_value(int *new_y, int *new_x)
                 }
 }
 
-
+/* 游戏结束 */
 void game_over()
 {
         sleep(1);
